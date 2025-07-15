@@ -8,9 +8,16 @@
   display: flex;
 }
 
-.around {
+.between {
   justify-content: space-between;
+}
 
+.around {
+  justify-content: space-around;
+}
+
+.evenly {
+  justify-content: space-evenly;
 }
 
 /* HOME */
@@ -96,13 +103,30 @@ margin-top: 17px;
 /* USER INFO */
  
 .userInfo {
-  border: 2px solid black;
+
     font-family: 'Roboto', sans-serif;
-    width: 340px;
     height: 90px;
-     text-align: center;
+   
 }
 
+.nameText {
+  font-size: 48px;
+  color: black;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0px;
+  margin-bottom: 30px;
+}
+.nameTextRed {
+color:red;
+}
+
+.infoText {
+  font-weight: 400;
+  font-size: 18px;
+   line-height: 24px;
+  letter-spacing: 0px;
+}
 /* Poid */ 
 
 .poid {
@@ -142,16 +166,37 @@ margin-top: 17px;
 /* APPORT */ 
 
 .blocinfo {
-    border: 2px solid black;
+  background-color: #FBFBFB;
  width: 258px;
  height: 124px;
  text-align: center;
  margin-bottom: 34px;
+ 
+}
+.contentBloc{
+ margin-top: 30px;
+}
+.iconApport {
+  width: 60px;
+  height: 60px;
+}
+.value {
+  width: 94px;
+  height: 24px;
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.apport {
+  color :#74798C;
+  font-weight: 500;
+  font-size: 14px;
 }
 /* ERROR */
 .errorText {
   color: red;
-  font-size: 288px;
+  font-size: 188px;
   margin: auto;
   margin-top: 50px;
   text-align: center;

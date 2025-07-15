@@ -5,9 +5,10 @@ export default function topNavBar() {
 
   return (
     <div className='containerTopNavBar'>
-      <div className="nav flex around">
+      <div className="nav flex between">
         
-<img className="imgTopNav" src="./public/logo.png" />
+
+<img className="imgTopNav" src="/logo.png" alt="logo" />
        
 
 <p className="buttonTopNav">Accueil</p>
