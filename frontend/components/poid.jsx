@@ -13,10 +13,11 @@ export default function Poid() {
     fetchData(`/user/${id}/activity`)
       .then((json) => {
         const formatted = json.sessions.map((session, i) => ({
-          day: i + 1,
+          day: i + 1, // transform le format des date en number
           kilogram: session.kilogram,
           calories: session.calories,
         }));
+        // console.log("test max" ,formatted)
         setData(formatted);
       })
       .catch((err) => console.error("Erreur API :", err));
@@ -74,10 +75,10 @@ export default function Poid() {
       .append("g")
       .attr("transform", `translate(0,${height - margin.bottom})`)
       .call(d3.axisBottom(x0).tickFormat((d) => `${d}`))
-      .call((g) => {
-        g.selectAll(".tick line").remove(); // Supprime les petites lignes des ticks
-        g.select(".domain").remove(); // Supprime la ligne principale de l'axe
-      })
+      // .call((g) => {
+      //   g.selectAll(".tick line").remove(); // Supprime les petites lignes des ticks
+      //   g.select(".domain").remove(); // Supprime la ligne principale de l'axe
+      // })
       .selectAll("text").attr("fill", "#74798C") 
       .style("font-size", "12px");
 
@@ -162,8 +163,8 @@ barGroups
           <p className="titlePoid">Activité quotidienne</p>
         </div>
         <div className="contenerPoid flex between">
-          <p className="grayColor"><span class="roundBlack"></span> Poid {`(kg)`}</p>
-          <p className="grayColor"> <span class="roundRed"></span>Calories brûlées {`(kCal)`}</p>
+          <p className="grayColor"><span className="roundBlack"></span> Poid {`(kg)`}</p>
+          <p className="grayColor"> <span className="roundRed"></span>Calories brûlées {`(kCal)`}</p>
         </div>
       </div>
       <div className="histogramme">

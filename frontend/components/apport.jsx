@@ -27,7 +27,7 @@ export default function Apport() {
             <img className="iconApport" src="/cal.png" alt="Zen" />
           </div>
           <div className="contentBloc">
-            <p className="value">{user.keyData.calorieCount}</p>
+            <p className="value">{user.keyData.calorieCount}kCal</p>
             <p className="apport">Calories</p>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default function Apport() {
           <img className="iconApport" src="/proteins.png" alt="Zen" />
         </div>
         <div className="contentBloc">
-          <p  className="value">{user.keyData.proteinCount}</p>
+          <p  className="value">{user.keyData.proteinCount}g</p>
           <p className="apport">Protèines</p>
         </div>
       </div>
@@ -46,7 +46,7 @@ export default function Apport() {
           <img className="iconApport" src="/carbs.png" alt="Zen" />
         </div>
         <div className="contentBloc">
-          <p  className="value">{user.keyData.carbohydrateCount}</p>
+          <p  className="value">{user.keyData.carbohydrateCount}g</p>
           <p className="apport">Glucides</p>
         </div>
       </div >
@@ -55,7 +55,7 @@ export default function Apport() {
           <img className="iconApport" src="/fat.png" alt="Zen" />
         </div>
         <div className="contentBloc">
-          <p  className="value">{user.keyData.lipidCount}</p>
+          <p  className="value">{user.keyData.lipidCount}g</p>
           <p className="apport">Lipides</p>
         </div>
       </div>

@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 
 
+
+
 async function enableMocking() {
   if (import.meta.env.VITE_ENV === 'dev') {
     const { worker } = await import('../mocks/browser.js');
+   
     await worker.start();
     console.log('[MSW] Mock API activée');
   } else {
@@ -25,9 +28,23 @@ export async function fetchData(path) {
   if (!res.ok) {
     throw new Error("Erreur lors de la récupération des données");
   }
+
   const json = await res.json();
-  return json.data || json; 
+
+  if (json.kind && json.data) {
+    return {
+      kind: json.kind,
+      data: json.data,
+    };
+  }
+
+  if (json.data) {
+    return json.data;
+  }
+
+  return json;
 }
+
 
 
 enableMocking().then(() => {
