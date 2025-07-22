@@ -5,7 +5,7 @@ import Error from '../pages/error';
 
 export default function App() {
   return (
-    <BrowserRouter basename="/dashboardAnalytics">
+    <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Navigate to="/user/18" replace />} />

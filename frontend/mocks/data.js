@@ -28,6 +28,21 @@ export const USER_MAIN_DATA = [
             carbohydrateCount: 150,
             lipidCount: 120
         }
+    },
+      {
+        id: 99,
+        userInfos: {
+            firstName: 'Maxime',
+            lastName: 'Neyret',
+            age: 28,
+        },
+        score: 2,
+        keyData: {
+            calorieCount: 9999,
+            proteinCount: 9999,
+            carbohydrateCount: 9999,
+            lipidCount: 9999
+        }
     }
 ];
 
@@ -55,6 +70,18 @@ export const USER_ACTIVITY = [
             { day: '2020-07-06', kilogram: 69, calories: 162 },
             { day: '2020-07-07', kilogram: 69, calories: 390 }
         ]
+    },
+     {
+        userId: 99,
+        sessions: [
+            { day: '2020-07-01', kilogram: 100, calories: 999 },
+            { day: '2020-07-02', kilogram: 100, calories: 999 },
+            { day: '2020-07-03', kilogram: 100, calories: 999 },
+            { day: '2020-07-04', kilogram: 100, calories: 500 },
+            { day: '2020-07-05', kilogram: 100, calories: 999 },
+            { day: '2020-07-06', kilogram: 100, calories: 999 },
+            { day: '2020-07-07', kilogram: 100, calories: 999 }
+        ]
     }
 ];
 
@@ -81,6 +108,18 @@ export const USER_AVERAGE_SESSIONS = [
             { day: 5, sessionLength: 30 },
             { day: 6, sessionLength: 50 },
             { day: 7, sessionLength: 50 }
+        ]
+    },
+      {
+        userId: 99,
+        sessions: [
+            { day: 1, sessionLength: 99 },
+            { day: 2, sessionLength: 0 },
+            { day: 3, sessionLength: 99 },
+            { day: 4, sessionLength: 0 },
+            { day: 5, sessionLength: 99 },
+            { day: 6, sessionLength: 0 },
+            { day: 7, sessionLength: 99 }
         ]
     }
 ];
@@ -123,5 +162,24 @@ export const USER_PERFORMANCE = [
             { value: 220, kind: 5 },
             { value: 110, kind: 6 }
         ]
-    }
+    },
+      {
+        userId: 99,
+        kind: {
+            1: 'cardio',
+            2: 'energy',
+            3: 'endurance',
+            4: 'strength',
+            5: 'speed',
+            6: 'intensity'
+        },
+        data: [
+            { value: 250, kind: 1 },
+            { value: 250, kind: 2 },
+            { value: 250, kind: 3 },
+            { value: 250, kind: 4 },
+            { value: 250, kind: 5 },
+            { value: 250, kind: 6 }
+        ]
+    },
 ];
