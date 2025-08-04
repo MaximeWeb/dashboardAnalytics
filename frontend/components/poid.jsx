@@ -124,6 +124,14 @@ svg.append("g")
   const ry = 6;
 
   barGroups
+  .on("mouseover", function (event, d) {
+    setSelectedDay(d.day);                      // evenement hover , prend les 2 barre en groupe
+  })
+  .on("mouseout", function () {
+    setSelectedDay(null);
+  });
+
+  barGroups
     .selectAll("path")
     .data((d) => [
       { key: "calories", value: d.calories },
@@ -152,10 +160,10 @@ svg.append("g")
     })
     .attr("fill", (d) => color(d.key))
     .style("cursor", "pointer")
-    .on("click", function (event, d) {    // onclick sur les barres 
-      const day = d3.select(this.parentNode).datum().day;
-      setSelectedDay((prev) => (prev === day ? null : day));
-    });
+    // .on("mouseover", function (event, d) {    // onclick sur les barres 
+    //   const day = d3.select(this.parentNode).datum().day;
+    //   setSelectedDay((prev) => (prev === day ? null : day));
+    // });
 
   // Tooltip rouge
   if (selectedDay !== null) {

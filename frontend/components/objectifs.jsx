@@ -99,10 +99,17 @@ export default function Objectifs() {
       .attr("r", 15) // plus large pour faciliter clic
       .attr("fill", "transparent")
       .style("cursor", "pointer")
-      .on("click", (event, d) => {
-        event.stopPropagation(); // empêcher le clic sur le fond de déclencher la désélection
-        setSelectedDay((prev) => (prev === d.day ? null : d.day));
-      });
+   .on("mouseenter", (event, d) => {
+  event.stopPropagation();
+  if (selectedDay !== d.day) {
+    setSelectedDay(d.day);
+  }
+})
+        .on("mouseout", () => {
+    setSelectedDay(null);
+  });
+ 
+  
 
     // Cercle blanc visible uniquement si sélectionné
     pointsGroup.selectAll("circle.selected-point").remove(); // clean avant d'ajouter
