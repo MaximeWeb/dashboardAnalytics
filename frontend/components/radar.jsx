@@ -14,11 +14,24 @@ export default function Radar() {
   const [kindMap, setKindMap] = useState(null);
 
 
+  const kindLabelsFr = {
+    cardio: "Cardio",
+    energy: "Énergie",
+    endurance: "Endurance",
+    strength: "Force",
+    speed: "Vitesse",
+    intensity: "Intensité"
+  };
+
 useEffect(() => {
   fetchData(`/user/${id}/performance`)
     .then((perf) => {
       setKindMap(perf.kind);
-      setData(perf.data);
+       const dataWithFr = perf.data.map(item => ({
+        ...item,
+        labelFr: kindLabelsFr[perf.kind[item.kind]]
+          }));
+      setData(dataWithFr);
     })
     .catch(console.error);
 }, [id]);
@@ -76,7 +89,7 @@ useEffect(() => {
 const labelRadius = radius * 1.3;
 
 axes.append("text")
-  .text(d => kindMap[d.kind]?.toUpperCase())
+   .text(d => d.labelFr?.toUpperCase())
   .attr("x", (_, i) => labelRadius * Math.cos(i * angleSlice - Math.PI / 2))
   .attr("y", (_, i) => labelRadius * Math.sin(i * angleSlice - Math.PI / 2))
   .style("fill", "#f8f3f3ec")

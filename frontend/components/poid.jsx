@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import * as d3 from "d3";
 
 export default function Poid() {
-  const svgRef = useRef();
+  const svgRef = useRef(); // d3 manipulation du dom
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
