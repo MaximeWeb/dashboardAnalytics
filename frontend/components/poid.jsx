@@ -9,6 +9,20 @@ export default function Poid() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
+  const [chartWidth, setChartWidth] = useState(750);
+
+useEffect(() => {
+  const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+  const handleChange = (e) => {
+    setChartWidth(e.matches ? 600 : 750);
+  };
+
+  mediaQuery.addEventListener("change", handleChange);
+  handleChange(mediaQuery); // initialise
+
+  return () => mediaQuery.removeEventListener("change", handleChange);
+}, []);
 
   useEffect(() => {
     fetchData(`/user/${id}/activity`)
@@ -27,7 +41,7 @@ export default function Poid() {
   useEffect(() => {
   if (!data) return;
 
-  const width = 750;
+  const width = chartWidth;
   const height = 200;
   const margin = { top: 20, right: 50, bottom: 40, left: 40 };
 
@@ -193,7 +207,7 @@ svg.append("g")
       .style("font-size", "7px")
       .text(`${selectedData.calories}kCal`);
   }
-}, [data, selectedDay]);
+}, [data, selectedDay, chartWidth]);
 
 
   return (

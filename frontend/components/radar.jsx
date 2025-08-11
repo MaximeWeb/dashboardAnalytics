@@ -12,6 +12,21 @@ export default function Radar() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [kindMap, setKindMap] = useState(null);
+    const [chartWidth, setChartWidth] = useState(258);
+
+  useEffect(() => {
+  const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+  const handleChange = (e) => {
+    setChartWidth(e.matches ? 200 : 258);
+  };
+
+  mediaQuery.addEventListener("change", handleChange);
+  handleChange(mediaQuery); // initialise
+
+  return () => mediaQuery.removeEventListener("change", handleChange);
+}, []);
+
 
 
   const kindLabelsFr = {
@@ -38,80 +53,73 @@ useEffect(() => {
 
 
   useEffect(() => {
-    if (!data || !kindMap) return;
+  if (!data || !kindMap) return;
 
-    const width = 258;
-    const height = 263;
-    const radius = 90;
-    const levels = 5;
-    const maxValue = 250; 
-    const angleSlice = (2 * Math.PI) / data.length;
+  const width = chartWidth;
+  const height = chartWidth + 5; // garde un peu plus de hauteur proportionnelle
+  const radius = width * 0.35;   // 🔹 proportionnel à la largeur
+  const levels = 5;
+  const maxValue = 250; 
+  const angleSlice = (2 * Math.PI) / data.length;
 
-    const svg = d3.select(svgRef.current);
-    svg.selectAll("*").remove();
-    svg.attr("width", width).attr("height", height);
+  const svg = d3.select(svgRef.current);
+  svg.selectAll("*").remove();
+  svg.attr("width", width).attr("height", height);
 
-    const center = { x: width / 2, y: height / 2 };
-    const g = svg.append("g").attr("transform", `translate(${center.x}, ${center.y})`);
+  const center = { x: width / 2, y: height / 2 };
+  const g = svg.append("g").attr("transform", `translate(${center.x}, ${center.y})`);
 
-    const rScale = d3.scaleLinear().domain([0, maxValue]).range([0, radius]);
+  const rScale = d3.scaleLinear().domain([0, maxValue]).range([0, radius]);
 
-    // Hexagones concentriques
-    for (let level = 1; level <= levels; level++) {
-      const r = (radius / levels) * level;
-      const points = data.map((_, i) => {
-        const angle = i * angleSlice - Math.PI / 2;
-        return [r * Math.cos(angle), r * Math.sin(angle)];
-      });
-      g.append("polygon")
-        .attr("points", points.map(p => p.join(",")).join(" "))
-        .attr("stroke", "#f9f7f7ec")
-        .attr("stroke-opacity", 0.3)
-        .attr("fill", "none");
-    }
+  // Hexagones concentriques
+  for (let level = 1; level <= levels; level++) {
+    const r = (radius / levels) * level;
+    const points = data.map((_, i) => {
+      const angle = i * angleSlice - Math.PI / 2;
+      return [r * Math.cos(angle), r * Math.sin(angle)];
+    });
+    g.append("polygon")
+      .attr("points", points.map(p => p.join(",")).join(" "))
+      .attr("stroke", "#f9f7f7ec")
+      .attr("stroke-opacity", 0.3)
+      .attr("fill", "none");
+  }
 
-    // Axes
-    const axes = g.selectAll(".axis")
-      .data(data)
-      .enter()
-      .append("g")
-      .attr("class", "axis");
+  // Labels
+  const labelRadius = radius * 1.25; // 🔹 proportionnel
+  const fontSize = Math.max(8, width * 0.04); // 🔹 min 8px
 
-    // axes.append("line")
-    //   .attr("x1", 0)
-    //   .attr("y1", 0)
-    //   .attr("x2", (_, i) => rScale(maxValue) * Math.cos(i * angleSlice - Math.PI / 2))
-    //   .attr("y2", (_, i) => rScale(maxValue) * Math.sin(i * angleSlice - Math.PI / 2))
-    //   .attr("stroke", "#FFFFFF")
-    //   .attr("stroke-opacity", 0.5);
+  const axes = g.selectAll(".axis")
+    .data(data)
+    .enter()
+    .append("g")
+    .attr("class", "axis");
 
-    // Labels
-const labelRadius = radius * 1.3;
+  axes.append("text")
+    .text(d => d.labelFr?.toUpperCase())
+    .attr("x", (_, i) => labelRadius * Math.cos(i * angleSlice - Math.PI / 2))
+    .attr("y", (_, i) => labelRadius * Math.sin(i * angleSlice - Math.PI / 2))
+    .style("fill", "#f8f3f3ec")
+    .style("font-size", `${fontSize}px`) // 🔹 taille responsive
+    .style("text-anchor", "middle")
+    .attr("dy", "0.35em");
 
-axes.append("text")
-   .text(d => d.labelFr?.toUpperCase())
-  .attr("x", (_, i) => labelRadius * Math.cos(i * angleSlice - Math.PI / 2))
-  .attr("y", (_, i) => labelRadius * Math.sin(i * angleSlice - Math.PI / 2))
-  .style("fill", "#f8f3f3ec")
-  .style("font-size", "10px")
-  .style("text-anchor", "middle")
-  .attr("dy", "0.35em");
+  // Forme radar
+  const radarLine = d3.lineRadial()
+    .radius(d => rScale(d.value))
+    .angle((_, i) => i * angleSlice)
+    .curve(d3.curveLinearClosed);
 
-    // Forme radar
-    const radarLine = d3.lineRadial()
-      .radius(d => rScale(d.value))
-      .angle((_, i) => i * angleSlice)
-      .curve(d3.curveLinearClosed);
+  g.append("path")
+    .datum(data)
+    .attr("d", radarLine)
+    .attr("fill", "#FF0101")
+    .attr("fill-opacity", 0.7)
+    .attr("stroke", "#FF0101")
+    .attr("stroke-width", width * 0.008); // 🔹 épaisseur adaptative
 
-    g.append("path")
-      .datum(data)
-      .attr("d", radarLine)
-      .attr("fill", "#FF0101")
-      .attr("fill-opacity", 0.7)
-      .attr("stroke", "#FF0101")
-      .attr("stroke-width", 2);
+}, [data, kindMap, chartWidth]); // chartWidth inclus ici
 
-  }, [data, kindMap]);
 
   return (
     <div className="radar">

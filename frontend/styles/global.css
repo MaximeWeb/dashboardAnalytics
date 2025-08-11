@@ -4,6 +4,7 @@
 * {
   margin: 0;
     font-family: 'Roboto', sans-serif;
+   
 }
 
 .flex {
@@ -31,6 +32,7 @@
 .home {
   margin-top: 50px;
 margin-left: 160px;
+
 }
 
 .div1 {
@@ -55,6 +57,7 @@ margin-left: 160px;
 
 .nav {
   margin-right: 82px;
+
 }
 
 .containerTopNavBar {
@@ -79,7 +82,7 @@ margin-left: 20px;
 
 .containerLeftNavBar {
   width: 117px;
-  height: 90vh;
+ height: 90vh;
   background-color: black;
 }
 
@@ -289,3 +292,305 @@ margin-left: 30px;
   text-align: center;
   margin-bottom: 110px;
 }
+
+/* RESPONSIV //////////////////////////////////////////////// */
+
+@media (min-width: 1024px) {
+* {
+  margin: 0;
+    font-family: 'Roboto', sans-serif;
+   
+}
+
+.flex {
+  display: flex;
+}
+
+.between {
+  justify-content: space-between;
+}
+
+.around {
+  justify-content: space-around;
+}
+
+.evenly {
+  justify-content: space-evenly;
+}
+
+.grayColor {
+  color:#74798C ;
+}
+
+/* HOME */
+
+.home {
+  margin-top: 50px;
+margin-left: 0px;
+
+
+}
+
+.div1 {
+  margin-bottom: 20px;
+}
+
+.div3 {
+  margin-top: 30px;
+}
+
+.div4 {
+  margin-left: 10px;
+}
+
+.blocDiv3 {
+  margin-right: 26px;
+}
+
+
+
+/* TOP NAV BAR */
+
+.nav {
+  margin-right: 82px;
+
+}
+
+.containerTopNavBar {
+ width: 1024px;
+  height: 91px;
+  background-color: black;
+}
+
+.buttonTopNav {
+  margin-top: 30px;
+ color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 24px;
+}
+
+.imgTopNav {
+  margin-top: 20px;
+margin-left: 20px;
+}
+
+/* LEFT NAV BAR */
+
+.containerLeftNavBar {
+  width: 117px;
+ height: 780px;
+  background-color: black;
+}
+
+.buttonLeftNav {
+  width: 64px;
+  height: 64px;
+  background-color: white;
+  border-radius: 6px;
+   margin: auto;
+   margin-top: 30px;
+    text-align: center;
+}
+
+.navLeft {
+ margin-top: 140px;
+}
+
+.icon {
+margin-top: 17px;
+}
+
+.copyrigth {
+  margin-top: 90px;
+  margin-left: 50px;
+}
+
+/* USER INFO */
+ 
+.userInfo {
+
+    font-family: 'Roboto', sans-serif;
+    height: 90px;
+   margin-left: 20px;
+}
+
+.nameText {
+  font-size: 38px;
+  color: black;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0px;
+  margin-bottom: 30px;
+}
+.nameTextRed {
+color:red;
+}
+
+.infoText {
+  font-weight: 400;
+  font-size: 18px;
+   line-height: 24px;
+  letter-spacing: 0px;
+}
+/* Poid */ 
+
+.poid {
+ background-color: #FBFBFB;
+ width: 635px;
+ height: 270px;
+ border-radius: 5px;
+ text-align: center;
+ padding-top: 30px;
+   font-family: 'Roboto', sans-serif;
+   margin-left: 20px;
+}
+.histogramme {
+  margin-top: 40px;
+
+}
+.titlePoid {
+font-weight: 500;
+font-size: 15px;
+margin-left: 30px;
+}
+
+.contenerPoid {
+ width: 277px;
+  margin-right: 20px;
+}
+.roundBlack {
+ display: inline-block;  
+  width: 8px;
+  height: 8px;
+  background-color: #000;
+  border-radius: 50%;
+  margin-bottom: 1px;
+   margin-right: 5px;
+}
+
+.roundRed {
+ display: inline-block;  
+  width: 8px;
+  height: 8px;
+  background-color: #E60000;
+  border-radius: 50%;
+  margin-bottom: 1px;
+  margin-right: 5px;
+}
+
+/* Objectifs */ 
+
+.objectifs {
+ width: 218px;
+ height: 223px;
+ text-align: center;
+ background-color: #E60000;
+ border-radius: 5px;
+
+}
+
+.textObjectifs {
+  color: #FFFFFF;
+  width: 147px;
+  text-align: justify;
+  margin-left: 20px;
+  padding-top: 20px;
+
+}
+
+.lineChart {
+  margin-top: 20px; 
+  position: relative;
+  z-index: 1000;
+  overflow: visible; /* ✅ Permet au tooltip de sortir si nécessaire */
+}
+/* radar */ 
+
+.radar {
+  background-color: #282D30;
+  border-radius: 5px;
+ width: 218px;
+ height: 223px;
+ text-align: center;
+}
+
+/* KPI */ 
+
+.kpi {
+ background-color: #FBFBFB;
+ width: 218px;
+ height: 223px;
+ text-align: center;
+}
+
+.textKpi {
+  text-align: justify;
+  margin-left: 30px;
+  padding-top: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.chart {
+  margin-top: 10px;
+}
+/* APPORT */ 
+
+.blocinfo {
+  background-color: #FBFBFB;
+ width: 208px;
+ height: 104px;
+ text-align: center;
+ margin-bottom: 34px;
+  border-radius: 5px;
+ 
+}
+.contentBloc{
+ margin-top: 30px;
+}
+.iconApport {
+  width: 60px;
+  height: 60px;
+}
+.value {
+  width: 94px;
+  height: 24px;
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.apport {
+  color :#74798C;
+  font-weight: 500;
+  font-size: 14px;
+}
+/* ERROR */
+.errorText {
+  color: red;
+  font-size: 188px;
+  margin: auto;
+  margin-top: 50px;
+  text-align: center;
+  line-height: 143%;
+  font-weight: 700;
+}
+
+.errorText2 {
+  color: red;
+  font-size: 36px;
+  font-weight: 500;
+  margin-bottom: 150px;
+}
+.errorLinkHome {
+  text-align: center;
+  color: black;
+}
+
+.errorDiv {
+  margin: auto;
+  text-align: center;
+  margin-bottom: 110px;
+}
+}
+

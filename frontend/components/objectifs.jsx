@@ -9,7 +9,23 @@ export default function Objectifs() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
+  const [chartWidth, setChartWidth] = useState(258); // largeur par défaut
 
+  // 🔹 Responsive
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+    const handleChange = (e) => {
+      setChartWidth(e.matches ? 200 : 258); // réduit en dessous de 1024px
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    handleChange(mediaQuery); // initialisation
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  // Récupération des données
   useEffect(() => {
     fetchData(`/user/${id}/average-sessions`)
       .then((json) => {
@@ -22,14 +38,15 @@ export default function Objectifs() {
       .catch((err) => console.error("Erreur API :", err));
   }, [id]);
 
+  // Création du graphique
   useEffect(() => {
     if (!data) return;
 
-    const width = 258;
-    const height = 180;
-    const marginTop = 38;
+    const width = chartWidth;
+    const height = chartWidth * 0.7; // proportionnel
+    const marginTop = height * 0.21;
     const marginRight = 0;
-    const marginBottom = 30;
+    const marginBottom = height * 0.17;
     const marginLeft = 0;
 
     const svg = d3.select(svgRef.current);
@@ -52,7 +69,7 @@ export default function Objectifs() {
 
     svg.attr("width", width).attr("height", height).attr("viewBox", [0, 0, width, height]);
 
-    // Fond transparent pour capturer clic hors des points (désélection)
+    // Fond transparent pour désélectionner
     svg
       .append("rect")
       .attr("width", width)
@@ -73,22 +90,24 @@ export default function Objectifs() {
       .call((g) => {
         g.selectAll(".tick line").remove();
         g.select(".domain").remove();
-        g.selectAll("text").attr("fill", "#FFFFFF").style("font-weight", "normal").style("font-size", "12px");
+        g.selectAll("text")
+          .attr("fill", "#FFFFFF")
+          .style("font-weight", "normal")
+          .style("font-size", `${width * 0.045}px`);
       });
 
-    // Ligne de la courbe
+    // Courbe
     svg
       .append("path")
       .datum(data)
       .attr("fill", "none")
       .attr("stroke", "#FFFFFF")
-      .attr("stroke-width", 2)
+      .attr("stroke-width", width * 0.008)
       .attr("d", line);
 
-    // Groupe pour les cercles cliquables et les points visibles
+    // Points cliquables
     const pointsGroup = svg.append("g").attr("class", "points-group");
 
-    // Cercles invisibles pour zones de clic, plus larges pour faciliter
     pointsGroup
       .selectAll("circle.click-zone")
       .data(data)
@@ -96,24 +115,20 @@ export default function Objectifs() {
       .attr("class", "click-zone")
       .attr("cx", (d) => x(d.day))
       .attr("cy", (d) => y(d.sessionLength))
-      .attr("r", 15) // plus large pour faciliter clic
+      .attr("r", width * 0.06) // proportionnel
       .attr("fill", "transparent")
       .style("cursor", "pointer")
-   .on("mouseenter", (event, d) => {
-  event.stopPropagation();
-  if (selectedDay !== d.day) {
-    setSelectedDay(d.day);
-  }
-})
-        .on("mouseout", () => {
-    setSelectedDay(null);
-  });
- 
-  
+      .on("mouseenter", (event, d) => {
+        event.stopPropagation();
+        if (selectedDay !== d.day) {
+          setSelectedDay(d.day);
+        }
+      })
+      .on("mouseout", () => {
+        setSelectedDay(null);
+      });
 
-    // Cercle blanc visible uniquement si sélectionné
-    pointsGroup.selectAll("circle.selected-point").remove(); // clean avant d'ajouter
-
+    // Point sélectionné + tooltip
     if (selectedDay !== null) {
       const selectedData = data.find((d) => d.day === selectedDay);
 
@@ -122,50 +137,45 @@ export default function Objectifs() {
         .attr("class", "selected-point")
         .attr("cx", x(selectedDay))
         .attr("cy", y(selectedData.sessionLength))
-        .attr("r", 6)
+        .attr("r", width * 0.023)
         .attr("fill", "white")
-        .attr("pointer-events", "none"); // ignore les événements souris
+        .attr("pointer-events", "none");
 
-      // Tooltip blanc
-      // Nettoyer tooltip avant d'ajouter
+      // Tooltip
       svg.selectAll("g.tooltip").remove();
-
       const tooltipGroup = svg
         .append("g")
         .attr("class", "tooltip")
-        .attr("transform", `translate(${x(selectedDay)},${y(selectedData.sessionLength) - 15})`);
+        .attr("transform", `translate(${x(selectedDay)},${y(selectedData.sessionLength) - width * 0.06})`);
 
       tooltipGroup
         .append("rect")
-        .attr("x", -30)
-        .attr("y", -25)
-        .attr("width", 60)
-        .attr("height", 30)
+        .attr("x", -width * 0.12)
+        .attr("y", -width * 0.1)
+        .attr("width", width * 0.24)
+        .attr("height", width * 0.12)
         .attr("fill", "white")
-        .attr("filter", "drop-shadow(0 0 2px rgba(0,0,0,0.2))");
+        .attr("rx", 4);
 
       tooltipGroup
         .append("text")
         .attr("text-anchor", "middle")
         .attr("fill", "black")
-        .style("font-size", "12px")
+        .style("font-size", `${width * 0.05}px`)
         .style("font-weight", "bold")
-        .attr("dy", "-5px")
+        .attr("dy", "-2px")
         .text(`${selectedData.sessionLength} min`);
     } else {
-      // Si aucune sélection, on enlève tooltip s’il existe
       svg.selectAll("g.tooltip").remove();
-      pointsGroup.selectAll("circle.selected-point").remove();
     }
-  }, [data, selectedDay]);
+  }, [data, selectedDay, chartWidth]);
 
   return (
     <div className="objectifs">
-        <p className="textObjectifs">Durée moyenne des sessions</p>
-      <div >
+      <p className="textObjectifs">Durée moyenne des sessions</p>
+      <div>
         <svg className="lineChart" ref={svgRef}></svg>
       </div>
     </div>
   );
 }
-
